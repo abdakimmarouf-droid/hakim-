@@ -8,6 +8,7 @@ import {
   filterGlossaryTerms,
 } from './materialsLogic';
 import { buildStandaloneHtml } from './standaloneHtml';
+import { ACCENT_PALETTES, getSite3DColors, isValidAccentPaletteId } from './accentPalettes';
 
 test('calculateTensileState handles elastic, plastic, and fracture phases accurately for steel', () => {
   const zero = calculateTensileState('steel', 0);
@@ -106,12 +107,72 @@ test('buildStandaloneHtml generates complete self-contained RTL Arabic HTML docu
   assert.ok(html.includes('lang="ar" dir="rtl"'));
   assert.ok(html.includes('المختبر التفاعلي لعلوم المواد الميكانيكية'));
   assert.ok(html.includes('شكري رضوان'));
-  assert.ok(html.includes('#F8FAFC'));
+  assert.ok(html.includes('#EEF4FC'));
   assert.ok(html.includes('الوضع الداكن'));
+  assert.ok(html.includes('لون الموقع'));
+  assert.ok(html.includes('data-accent="red"'));
+  assert.ok(html.includes('#FDF2F3'));
+  assert.ok(html.includes('--heading:'));
   assert.ok(html.includes('ألياف الكربون'));
   assert.ok(html.includes('تحدي هيكل طائرة'));
   assert.ok(html.includes('قاموس المصطلحات الهندسية'));
   assert.ok(html.includes('الصلادة'));
   assert.ok(!html.includes('محاكي اختبار الشد'));
   assert.ok(html.includes('</html>'));
+});
+
+import { MATERIALS } from '../data/materialsData';
+import {
+  MATERIAL_3D_SPECS,
+  computeExplodedOffset,
+  dampScalar,
+} from '../three/material3DSpecs';
+
+test('MATERIAL_3D_SPECS defines a multi-part composite assembly (4-5 parts) for every material', () => {
+  for (const mat of MATERIALS) {
+    const spec = MATERIAL_3D_SPECS[mat.id];
+    assert.ok(spec, `Missing 3D spec for ${mat.id}`);
+    assert.ok(spec.parts.length >= 3 && spec.parts.length <= 12);
+    assert.ok(spec.modelTitleAr.length > 0);
+  }
+});
+
+test('computeExplodedOffset and dampScalar behave deterministically across boundaries', () => {
+  assert.deepEqual(computeExplodedOffset([1, 2, 3], [0, 4, -2], 0), [1, 2, 3]);
+  assert.deepEqual(computeExplodedOffset([1, 2, 3], [0, 4, -2], 0.5), [1, 4, 2]);
+  assert.deepEqual(computeExplodedOffset([1, 2, 3], [0, 4, -2], 2), [1, 6, 1]);
+
+  const damped = dampScalar(0, 1, 8, 0.016);
+  assert.ok(damped > 0 && damped < 1);
+  assert.equal(dampScalar(0.5, 1, 8, 0), 0.5);
+});
+
+test('ACCENT_PALETTES defines comfortable full-site themes with valid swatches, surfaces, and 3D specs', () => {
+  const ids = ACCENT_PALETTES.map((p) => p.id);
+  assert.ok(ids.includes('blue'));
+  assert.ok(ids.includes('red'));
+  assert.equal(ids.length, 4);
+
+  for (const palette of ACCENT_PALETTES) {
+    assert.ok(palette.labelAr.length > 0);
+    assert.match(palette.swatchLight, /^#[0-9A-Fa-f]{6}$/);
+    assert.match(palette.swatchDark, /^#[0-9A-Fa-f]{6}$/);
+    assert.match(palette.canvasLight, /^#[0-9A-Fa-f]{6}$/);
+    assert.match(palette.canvasDark, /^#[0-9A-Fa-f]{6}$/);
+    assert.match(palette.surfaceLight, /^#[0-9A-Fa-f]{6}$/);
+    assert.match(palette.surfaceDark, /^#[0-9A-Fa-f]{6}$/);
+    assert.equal(isValidAccentPaletteId(palette.id), true);
+  }
+
+  assert.notEqual(
+    getSite3DColors('light', 'blue').background,
+    getSite3DColors('light', 'red').background
+  );
+  assert.notEqual(
+    getSite3DColors('dark', 'red').background,
+    getSite3DColors('dark', 'green').background
+  );
+
+  assert.equal(isValidAccentPaletteId('neon-pink'), false);
+  assert.equal(isValidAccentPaletteId(null), false);
 });

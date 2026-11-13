@@ -44,7 +44,7 @@ export function QuizSection() {
   return (
     <section
       id="quiz"
-      className="border-b border-[#E2E8F0] dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0F172A] py-14 sm:py-18 transition-colors duration-200"
+      className="border-b border-border-theme bg-canvas py-14 sm:py-18 transition-colors duration-200"
     >
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         <motion.div
@@ -54,10 +54,10 @@ export function QuizSection() {
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           className="mb-10 text-center space-y-2"
         >
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1E293B] dark:text-slate-50">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-heading">
             03. تحدي المهندس الصغير
           </h2>
-          <p className="mx-auto max-w-xl text-sm sm:text-base text-slate-600 dark:text-slate-400">
+          <p className="mx-auto max-w-xl text-sm sm:text-base text-ink-body">
             اختبر فهمك لخصائص المواد وتطبيقاتها الصناعية عبر 5 أسئلة تفاعلية مع تصحيح فوري ووسام
             تقييم نهائي.
           </p>
@@ -77,29 +77,29 @@ export function QuizSection() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                className="rounded-2xl border border-[#E2E8F0] dark:border-slate-700/80 bg-white dark:bg-[#1E293B] p-6 sm:p-8 shadow-sm space-y-6"
+                className="rounded-2xl border border-border-theme bg-surface p-6 sm:p-8 shadow-sm space-y-6 transition-colors duration-200"
               >
                 {/* Progress Header */}
                 <div className="space-y-2.5">
                   <div className="flex items-center justify-between text-xs sm:text-sm font-bold">
-                    <span className="text-[#2563EB] dark:text-sky-400">
+                    <span className="text-accent">
                       السؤال <span className="font-mono-nums">{currentIndex + 1}</span> من{' '}
                       <span className="font-mono-nums">{QUIZ_QUESTIONS.length}</span>
                     </span>
-                    <span className="font-mono-nums text-slate-500 dark:text-slate-400">
+                    <span className="font-mono-nums text-ink-muted">
                       {progressPct}%
                     </span>
                   </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-900 border border-[#E2E8F0] dark:border-slate-800">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-surface-alt border border-border-theme">
                     <div
-                      className="h-full rounded-full bg-[#2563EB] dark:bg-sky-400 transition-all duration-300"
+                      className="h-full rounded-full bg-accent transition-all duration-300"
                       style={{ width: `${progressPct}%` }}
                     />
                   </div>
                 </div>
 
                 {/* Question Text */}
-                <h3 className="text-lg sm:text-xl font-bold leading-relaxed text-[#1E293B] dark:text-slate-50">
+                <h3 className="text-lg sm:text-xl font-bold leading-relaxed text-heading">
                   {currentQuestion.question}
                 </h3>
 
@@ -110,7 +110,7 @@ export function QuizSection() {
                     const isRightOption = idx === currentQuestion.correctIndex;
 
                     let stateClasses =
-                      'border-[#E2E8F0] dark:border-slate-700 bg-[#F8FAFC] dark:bg-slate-900/70 text-[#1E293B] dark:text-slate-200 hover:border-[#2563EB]/60 dark:hover:border-sky-400/70 hover:bg-blue-50/40 dark:hover:bg-slate-800';
+                      'border-border-theme bg-surface-alt text-ink hover:border-accent/60 hover:bg-accent-soft/60';
 
                     if (hasAnsweredCurrent) {
                       if (isRightOption) {
@@ -121,7 +121,7 @@ export function QuizSection() {
                           'border-rose-400 dark:border-red-500/70 bg-rose-50 dark:bg-red-500/15 text-rose-900 dark:text-red-200';
                       } else {
                         stateClasses =
-                          'border-[#E2E8F0] dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 text-slate-400 dark:text-slate-500';
+                          'border-border-theme bg-surface-alt/50 text-ink-muted opacity-75';
                       }
                     }
 
@@ -151,7 +151,7 @@ export function QuizSection() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                    className="space-y-4 border-t border-[#E2E8F0] dark:border-slate-700/70 pt-5"
+                    className="space-y-4 border-t border-border-theme pt-5"
                   >
                     <div
                       className={`rounded-xl border p-4 text-sm leading-relaxed ${
@@ -170,7 +170,7 @@ export function QuizSection() {
                       <button
                         type="button"
                         onClick={handleNext}
-                        className="inline-flex items-center justify-center rounded-xl bg-[#2563EB] dark:bg-sky-500 px-6 py-3 text-sm font-bold text-white dark:text-slate-950 shadow-sm hover:bg-blue-700 dark:hover:bg-sky-400 transition-colors min-h-[44px]"
+                        className="inline-flex items-center justify-center rounded-xl bg-accent px-6 py-3 text-sm font-bold text-accent-fg shadow-sm hover:bg-accent-hover transition-colors min-h-[44px]"
                       >
                         {currentIndex < QUIZ_QUESTIONS.length - 1
                           ? 'السؤال التالي'
@@ -189,42 +189,42 @@ export function QuizSection() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 data-testid="quiz-result-card"
-                className="rounded-2xl border border-[#E2E8F0] dark:border-sky-500/40 bg-white dark:bg-[#1E293B] p-8 text-center shadow-sm space-y-6"
+                className="rounded-2xl border border-accent-border bg-surface p-8 text-center shadow-sm space-y-6 transition-colors duration-200"
               >
                 <div
                   className={`mx-auto flex h-20 w-20 items-center justify-center rounded-2xl border ${
                     evaluation.medalTier === 'gold'
                       ? 'border-amber-200 dark:border-amber-400/50 bg-amber-50 dark:bg-amber-500/20 text-amber-600 dark:text-amber-300'
                       : evaluation.medalTier === 'silver'
-                        ? 'border-blue-200 dark:border-sky-400/50 bg-blue-50 dark:bg-sky-500/20 text-[#2563EB] dark:text-sky-300'
-                        : 'border-teal-200 dark:border-teal-400/50 bg-teal-50 dark:bg-teal-500/20 text-[#0D9488] dark:text-teal-300'
+                        ? 'border-accent-border bg-accent-soft text-accent'
+                        : 'border-accent-secondary/35 bg-accent-secondary-soft text-accent-secondary'
                   }`}
                 >
                   <Award className="h-10 w-10" />
                 </div>
 
                 <div className="space-y-2">
-                  <div className="text-xs font-bold text-[#0D9488] dark:text-teal-400">
+                  <div className="text-xs font-bold text-accent-secondary">
                     نتيجة تحدي المهندس الصغير
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-[#1E293B] dark:text-slate-50">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-heading">
                     {evaluation.medalTitle}
                   </h3>
-                  <p className="mx-auto max-w-md text-sm text-slate-600 dark:text-slate-300">
+                  <p className="mx-auto max-w-md text-sm text-ink-body">
                     {evaluation.medalSubtitle}
                   </p>
                 </div>
 
                 <div className="mx-auto grid max-w-sm grid-cols-2 gap-4">
-                  <div className="rounded-xl border border-[#E2E8F0] dark:border-slate-700 bg-[#F8FAFC] dark:bg-slate-900/75 p-4">
-                    <div className="text-xs text-slate-500 dark:text-slate-400">الدرجة المحققة</div>
-                    <div className="font-mono-nums mt-1 text-2xl font-extrabold text-[#2563EB] dark:text-sky-400">
+                  <div className="rounded-xl border border-border-theme bg-surface-alt p-4">
+                    <div className="text-xs text-ink-muted">الدرجة المحققة</div>
+                    <div className="font-mono-nums mt-1 text-2xl font-extrabold text-accent">
                       {evaluation.score} / {evaluation.total}
                     </div>
                   </div>
-                  <div className="rounded-xl border border-[#E2E8F0] dark:border-slate-700 bg-[#F8FAFC] dark:bg-slate-900/75 p-4">
-                    <div className="text-xs text-slate-500 dark:text-slate-400">النسبة المئوية</div>
-                    <div className="font-mono-nums mt-1 text-2xl font-extrabold text-[#0D9488] dark:text-teal-400">
+                  <div className="rounded-xl border border-border-theme bg-surface-alt p-4">
+                    <div className="text-xs text-ink-muted">النسبة المئوية</div>
+                    <div className="font-mono-nums mt-1 text-2xl font-extrabold text-accent-secondary">
                       {evaluation.percentage}%
                     </div>
                   </div>
@@ -233,7 +233,7 @@ export function QuizSection() {
                 <button
                   type="button"
                   onClick={handleRetake}
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#2563EB] dark:bg-sky-500 px-6 py-3 text-sm font-bold text-white dark:text-slate-950 shadow-sm hover:bg-blue-700 dark:hover:bg-sky-400 transition-colors min-h-[44px]"
+                  className="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-bold text-accent-fg shadow-sm hover:bg-accent-hover transition-colors min-h-[44px]"
                 >
                   <RotateCcw className="h-4 w-4" />
                   <span>إعادة الاختبار</span>

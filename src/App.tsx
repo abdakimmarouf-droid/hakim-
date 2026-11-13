@@ -5,13 +5,17 @@ import { ComparatorSection } from './components/ComparatorSection';
 import { EncyclopediaSection } from './components/EncyclopediaSection';
 import { GlossarySection } from './components/GlossarySection';
 import { HeroSection } from './components/HeroSection';
+import { Material3DSection } from './components/Material3DSection';
 import { Navbar } from './components/Navbar';
 import { QuizSection } from './components/QuizSection';
+import type { MaterialId } from './data/materialsData';
+import { type AccentPaletteId, isValidAccentPaletteId } from './utils/accentPalettes';
 import { buildStandaloneHtml } from './utils/standaloneHtml';
 
 export type ThemeMode = 'light' | 'dark';
 
 export default function App() {
+  const [active3DMaterial, setActive3DMaterial] = useState<MaterialId>('steel');
   const [theme, setTheme] = useState<ThemeMode>(() => {
     try {
       const saved = window.localStorage.getItem('materials-lab-theme');
@@ -20,6 +24,16 @@ export default function App() {
       // Ignore storage access restrictions
     }
     return 'light';
+  });
+
+  const [accentPalette, setAccentPalette] = useState<AccentPaletteId>(() => {
+    try {
+      const saved = window.localStorage.getItem('materials-lab-accent');
+      if (isValidAccentPaletteId(saved)) return saved;
+    } catch {
+      // Ignore storage access restrictions
+    }
+    return 'blue';
   });
 
   useEffect(() => {
@@ -36,8 +50,25 @@ export default function App() {
     }
   }, [theme]);
 
+  useEffect(() => {
+    document.documentElement.setAttribute('data-accent', accentPalette);
+    try {
+      window.localStorage.setItem('materials-lab-accent', accentPalette);
+    } catch {
+      // Ignore storage access restrictions
+    }
+  }, [accentPalette]);
+
   const handleToggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  const handleInspect3D = (id: MaterialId) => {
+    setActive3DMaterial(id);
+    const el = document.getElementById('models-3d');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   const handleDownloadStandaloneHtml = () => {
@@ -55,28 +86,39 @@ export default function App() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#0F172A] text-[#1E293B] dark:text-slate-100 transition-colors duration-200">
+      <div className="min-h-screen bg-canvas text-ink transition-colors duration-200">
         <Navbar />
 
         <main>
-          <HeroSection theme={theme} onToggleTheme={handleToggleTheme} />
-          <EncyclopediaSection />
+          <HeroSection
+            theme={theme}
+            onToggleTheme={handleToggleTheme}
+            accentPalette={accentPalette}
+            onChangeAccent={setAccentPalette}
+          />
+          <EncyclopediaSection onInspect3D={handleInspect3D} />
+          <Material3DSection
+            activeMaterialId={active3DMaterial}
+            onSelectMaterial={setActive3DMaterial}
+            theme={theme}
+            accentPalette={accentPalette}
+          />
           <ComparatorSection />
           <QuizSection />
           <GlossarySection />
         </main>
 
-        <footer className="border-t border-[#E2E8F0] dark:border-slate-800 bg-white dark:bg-[#0B1220] py-8 transition-colors duration-200">
+        <footer className="border-t border-border-theme bg-surface py-8 transition-colors duration-200">
           <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6">
             <div className="text-center sm:text-right space-y-1">
-              <div className="text-sm font-bold text-[#1E293B] dark:text-slate-100">
+              <div className="text-sm font-bold text-ink">
                 المختبر التفاعلي لعلوم المواد الميكانيكية
               </div>
-              <div className="text-xs text-slate-600 dark:text-slate-400">
+              <div className="text-xs text-ink-body">
                 إعداد الطلبة: معروف عبد الجكيم · عوام بلال · بوازني منيب · بلعريبي اوسامة — قسم
                 الهندسة الميكانيكية
               </div>
-              <div className="text-xs font-semibold text-[#2563EB] dark:text-sky-400">
+              <div className="text-xs font-semibold text-accent">
                 تحت إشراف أستاذ مادة الهندسة الميكانيكية: شكري رضوان
               </div>
             </div>
@@ -84,7 +126,7 @@ export default function App() {
             <button
               type="button"
               onClick={handleDownloadStandaloneHtml}
-              className="inline-flex items-center gap-2 rounded-xl border border-[#E2E8F0] dark:border-slate-700 bg-[#F8FAFC] dark:bg-slate-800/80 px-4 py-2 text-xs font-bold text-[#1E293B] dark:text-slate-200 shadow-xs hover:border-[#2563EB] dark:hover:border-sky-400 hover:text-[#2563EB] dark:hover:text-sky-300 transition-colors whitespace-nowrap min-h-[40px]"
+              className="inline-flex items-center gap-2 rounded-xl border border-border-theme bg-surface-alt px-4 py-2 text-xs font-bold text-ink shadow-xs hover:border-accent hover:text-accent transition-colors whitespace-nowrap min-h-[40px]"
             >
               <Download className="h-4 w-4" />
               <span>تنزيل نسخة HTML موحدة</span>

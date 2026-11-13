@@ -16,38 +16,148 @@ export function buildStandaloneHtml(): string {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --bg: #F8FAFC;
+    :root,
+    html[data-accent="blue"] {
+      --bg: #EEF4FC;
       --card: #FFFFFF;
-      --surface-alt: #F8FAFC;
-      --border: #E2E8F0;
+      --surface-alt: #F4F8FE;
+      --border: #CBD8EC;
       --primary: #2563EB;
       --primary-fg: #FFFFFF;
       --secondary: #0D9488;
-      --text: #1E293B;
-      --muted: #64748B;
-      --body-text: #475569;
-      --grid-line: rgba(37, 99, 235, 0.045);
-      --header-bg: rgba(248, 250, 252, 0.92);
-      --rec-bg: #EFF6FF;
-      --rec-border: #BFDBFE;
+      --heading: #1D4ED8;
+      --text: #17253B;
+      --muted: #5E718F;
+      --body-text: #3B4D6B;
+      --grid-line: rgba(37, 99, 235, 0.055);
+      --header-bg: rgba(238, 244, 252, 0.92);
+      --rec-bg: #E5EFFD;
+      --rec-border: #B8D0FA;
     }
-    html.dark {
-      --bg: #0F172A;
-      --card: #1E293B;
-      --surface-alt: #0F172A;
-      --border: #334155;
+    html.dark,
+    html.dark[data-accent="blue"] {
+      --bg: #0B1528;
+      --card: #14223B;
+      --surface-alt: #0E1A30;
+      --border: #24385B;
       --primary: #38BDF8;
-      --primary-fg: #020617;
+      --primary-fg: #091222;
       --secondary: #2DD4BF;
+      --heading: #60A5FA;
       --text: #F1F5F9;
-      --muted: #94A3B8;
-      --body-text: #CBD5E1;
-      --grid-line: rgba(56, 189, 248, 0.05);
-      --header-bg: rgba(15, 23, 42, 0.92);
-      --rec-bg: rgba(56, 189, 248, 0.1);
-      --rec-border: rgba(56, 189, 248, 0.35);
+      --muted: #8EA4C4;
+      --body-text: #C7D6EB;
+      --grid-line: rgba(56, 189, 248, 0.06);
+      --header-bg: rgba(11, 21, 40, 0.92);
+      --rec-bg: rgba(56, 189, 248, 0.14);
+      --rec-border: rgba(56, 189, 248, 0.36);
     }
+    html[data-accent="red"] {
+      --bg: #FDF2F3;
+      --card: #FFFBFB;
+      --surface-alt: #FAE8EA;
+      --border: #F1D0D4;
+      --primary: #C93B4B;
+      --primary-fg: #FFFFFF;
+      --secondary: #B45309;
+      --heading: #A61B2E;
+      --text: #2D161A;
+      --muted: #855A61;
+      --body-text: #5B383E;
+      --grid-line: rgba(201, 59, 75, 0.055);
+      --header-bg: rgba(253, 242, 243, 0.92);
+      --rec-bg: #FDE5E8;
+      --rec-border: #F8BEC5;
+    }
+    html.dark[data-accent="red"] {
+      --bg: #1C0E13;
+      --card: #29151C;
+      --surface-alt: #201016;
+      --border: #4A2531;
+      --primary: #FB7185;
+      --primary-fg: #1C0E13;
+      --secondary: #F59E0B;
+      --heading: #FDA4AF;
+      --text: #FDF2F4;
+      --muted: #B88B95;
+      --body-text: #E6C7CE;
+      --grid-line: rgba(251, 113, 133, 0.06);
+      --header-bg: rgba(28, 14, 19, 0.92);
+      --rec-bg: rgba(251, 113, 133, 0.16);
+      --rec-border: rgba(251, 113, 133, 0.40);
+    }
+    html[data-accent="green"] {
+      --bg: #EDF7F4;
+      --card: #FAFEFC;
+      --surface-alt: #E2F2ED;
+      --border: #C2E0D8;
+      --primary: #0D9488;
+      --primary-fg: #FFFFFF;
+      --secondary: #2563EB;
+      --heading: #0F6E63;
+      --text: #122A25;
+      --muted: #567A72;
+      --body-text: #33534C;
+      --grid-line: rgba(13, 148, 136, 0.055);
+      --header-bg: rgba(237, 247, 244, 0.92);
+      --rec-bg: #DCF5EE;
+      --rec-border: #99E2D4;
+    }
+    html.dark[data-accent="green"] {
+      --bg: #0A1A17;
+      --card: #122924;
+      --surface-alt: #0D201C;
+      --border: #20433C;
+      --primary: #2DD4BF;
+      --primary-fg: #0A1A17;
+      --secondary: #38BDF8;
+      --heading: #5EEAD4;
+      --text: #ECFDF7;
+      --muted: #7FB2A6;
+      --body-text: #BEE3DA;
+      --grid-line: rgba(45, 212, 191, 0.06);
+      --header-bg: rgba(10, 26, 23, 0.92);
+      --rec-bg: rgba(45, 212, 191, 0.16);
+      --rec-border: rgba(45, 212, 191, 0.38);
+    }
+    html[data-accent="purple"] {
+      --bg: #F3F1FC;
+      --card: #FCFBFF;
+      --surface-alt: #EAE6FA;
+      --border: #D4CEEE;
+      --primary: #6366F1;
+      --primary-fg: #FFFFFF;
+      --secondary: #0D9488;
+      --heading: #4338CA;
+      --text: #1E1B3A;
+      --muted: #6D6796;
+      --body-text: #47426E;
+      --grid-line: rgba(99, 102, 241, 0.055);
+      --header-bg: rgba(243, 241, 252, 0.92);
+      --rec-bg: #E8E6FD;
+      --rec-border: #C4BFF9;
+    }
+    html.dark[data-accent="purple"] {
+      --bg: #131126;
+      --card: #1E1B38;
+      --surface-alt: #17142C;
+      --border: #35305C;
+      --primary: #A78BFA;
+      --primary-fg: #131126;
+      --secondary: #2DD4BF;
+      --heading: #C4B5FD;
+      --text: #F3F2FF;
+      --muted: #938EC2;
+      --body-text: #CBC7EB;
+      --grid-line: rgba(167, 139, 250, 0.06);
+      --header-bg: rgba(19, 17, 38, 0.92);
+      --rec-bg: rgba(167, 139, 250, 0.16);
+      --rec-border: rgba(167, 139, 250, 0.40);
+    }
+    .accent-group { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 12px; background: var(--card); border: 1px solid var(--border); }
+    .accent-btn { width: 22px; height: 22px; border-radius: 999px; border: 2px solid transparent; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+    .accent-btn:hover { transform: scale(1.1); }
+    .accent-btn.active { box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--primary); }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; font-family: 'Cairo', system-ui, sans-serif; background: var(--bg); color: var(--text); transition: background-color 0.2s ease, color 0.2s ease; }
     body { line-height: 1.65; overflow-x: hidden; }
@@ -62,7 +172,7 @@ export function buildStandaloneHtml(): string {
     .container { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
     header { position: sticky; top: 0; z-index: 40; background: var(--header-bg); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
     .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 20px; }
-    .brand { font-weight: 800; font-size: 1.1rem; color: var(--text); text-decoration: none; white-space: nowrap; }
+    .brand { font-weight: 800; font-size: 1.1rem; color: var(--heading); text-decoration: none; white-space: nowrap; }
     .nav-links { display: flex; gap: 24px; }
     .nav-links a { color: var(--body-text); text-decoration: none; font-size: 0.92rem; font-weight: 600; white-space: nowrap; }
     .nav-links a:hover { color: var(--primary); }
@@ -70,8 +180,9 @@ export function buildStandaloneHtml(): string {
     .btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px; font-family: inherit; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
     .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
     section { padding: 56px 0; border-bottom: 1px solid var(--border); }
-    h1 { font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 800; line-height: 1.25; margin-bottom: 16px; color: var(--text); }
-    h2 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; margin-bottom: 10px; color: var(--text); }
+    h1 { font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 800; line-height: 1.25; margin-bottom: 16px; color: var(--heading); }
+    h2 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; margin-bottom: 10px; color: var(--heading); }
+    h3, h4 { color: var(--heading); }
     .subtitle { color: var(--body-text); font-size: 0.98rem; max-width: 660px; margin-bottom: 28px; }
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04); }
     .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
@@ -115,7 +226,16 @@ export function buildStandaloneHtml(): string {
       <div class="container">
         <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px;">
           <div style="color: var(--secondary); font-size: 0.88rem; font-weight: 700;">مشروع دراسي تفاعلي · قسم الهندسة الميكانيكية</div>
-          <button id="theme-toggle" type="button" class="btn-secondary">الوضع الداكن</button>
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:8px;">
+            <button id="theme-toggle" type="button" class="btn-secondary">الوضع الداكن</button>
+            <div class="accent-group" role="group" aria-label="تغيير لون الموقع بالكامل">
+              <span style="font-size:0.78rem; font-weight:700; color:var(--muted); margin-left:4px;">لون الموقع:</span>
+              <button type="button" class="accent-btn active" data-accent-pick="blue" title="أزرق هندسي" aria-label="تغيير لون الموقع إلى: أزرق هندسي" style="background:#2563EB;"></button>
+              <button type="button" class="accent-btn" data-accent-pick="red" title="أحمر دافئ مريح" aria-label="تغيير لون الموقع إلى: أحمر دافئ مريح" style="background:#C93B4B;"></button>
+              <button type="button" class="accent-btn" data-accent-pick="green" title="أخضر نعناعي" aria-label="تغيير لون الموقع إلى: أخضر نعناعي" style="background:#0D9488;"></button>
+              <button type="button" class="accent-btn" data-accent-pick="purple" title="بنفسجي هادئ" aria-label="تغيير لون الموقع إلى: بنفسجي هادئ" style="background:#6366F1;"></button>
+            </div>
+          </div>
         </div>
         <h1>المختبر التفاعلي لعلوم المواد الميكانيكية</h1>
         <p class="subtitle">منصة تعليمية هادئة ومبسطة لاستكشاف الخواص الفيزيائية والميكانيكية للمواد الصناعية، ومقارنة أدائها الهندسي ذكياً لاختيار المادة الأنسب لكل تطبيق ميكانيكي.</p>
@@ -204,12 +324,30 @@ export function buildStandaloneHtml(): string {
     const GLOSSARY = ${serializedGlossary};
     const MAT_MAP = Object.fromEntries(MATERIALS.map(m => [m.id, m]));
 
-    // Theme toggle
+    // Theme & Comfortable Accent Switcher
     const themeBtn = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('materials-lab-theme');
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+      themeBtn.textContent = 'الوضع الفاتح';
+    }
     themeBtn.onclick = () => {
       const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('materials-lab-theme', isDark ? 'dark' : 'light');
       themeBtn.textContent = isDark ? 'الوضع الفاتح' : 'الوضع الداكن';
     };
+
+    const accentBtns = Array.from(document.querySelectorAll('[data-accent-pick]'));
+    function applyAccent(id) {
+      document.documentElement.setAttribute('data-accent', id);
+      localStorage.setItem('materials-lab-accent', id);
+      accentBtns.forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-accent-pick') === id));
+    }
+    const savedAccent = localStorage.getItem('materials-lab-accent');
+    applyAccent(['blue', 'red', 'green', 'purple'].includes(savedAccent) ? savedAccent : 'blue');
+    accentBtns.forEach(btn => {
+      btn.onclick = () => applyAccent(btn.getAttribute('data-accent-pick'));
+    });
 
     // Encyclopedia
     const grid = document.getElementById('materials-grid');
@@ -292,7 +430,7 @@ export function buildStandaloneHtml(): string {
     function renderQuiz() {
       if (qIdx >= QUIZ.length) {
         const medal = qScore >= 4 ? 'وسام مهندس المواد الخبير' : qScore >= 3 ? 'وسام المهندس الواعد' : 'وسام باحث المختبر';
-        qBox.innerHTML = '<div style="text-align:center;"><h3 style="color:var(--primary); font-size:1.5rem;">' + medal + '</h3><p class="mono" style="font-size:1.4rem; margin:12px 0;">' + qScore + ' / ' + QUIZ.length + '</p><button type="button" class="btn-primary" onclick="qIdx=0;qScore=0;qAnswered=false;renderQuiz();">إعادة الاختبار</button></div>';
+        qBox.innerHTML = '<div style="text-align:center;"><h3 style="font-size:1.5rem;">' + medal + '</h3><p class="mono" style="font-size:1.4rem; margin:12px 0;">' + qScore + ' / ' + QUIZ.length + '</p><button type="button" class="btn-primary" onclick="qIdx=0;qScore=0;qAnswered=false;renderQuiz();">إعادة الاختبار</button></div>';
         return;
       }
       const q = QUIZ[qIdx];

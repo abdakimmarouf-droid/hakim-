@@ -1,9 +1,21 @@
-import { Award, BookOpen, GraduationCap, Moon, Scale, Sun, UserCheck } from 'lucide-react';
+import {
+  Award,
+  BookOpen,
+  GraduationCap,
+  Moon,
+  Palette,
+  Scale,
+  Sun,
+  UserCheck,
+} from 'lucide-react';
 import { motion } from 'motion/react';
+import { ACCENT_PALETTES, type AccentPaletteId } from '../utils/accentPalettes';
 
 interface HeroSectionProps {
   theme: 'light' | 'dark';
   onToggleTheme: () => void;
+  accentPalette: AccentPaletteId;
+  onChangeAccent: (id: AccentPaletteId) => void;
 }
 
 const QUICK_NAV = [
@@ -12,37 +24,39 @@ const QUICK_NAV = [
     title: 'موسوعة المواد',
     subtitle: '5 مواد وتطبيقاتها',
     icon: BookOpen,
-    iconBg:
-      'bg-blue-50 dark:bg-sky-500/15 text-[#2563EB] dark:text-sky-400 border-blue-100 dark:border-sky-400/25',
-    hoverBorder: 'hover:border-[#2563EB]/50 dark:hover:border-sky-400/60',
+    iconBg: 'bg-accent-soft text-accent border-accent-border',
+    hoverBorder: 'hover:border-accent/60',
   },
   {
     href: '#comparator',
     title: 'المقارنة الذكية',
     subtitle: 'تحديات وتوصية فورية',
     icon: Scale,
-    iconBg:
-      'bg-teal-50 dark:bg-teal-500/15 text-[#0D9488] dark:text-teal-400 border-teal-100 dark:border-teal-400/25',
-    hoverBorder: 'hover:border-[#0D9488]/50 dark:hover:border-teal-400/60',
+    iconBg: 'bg-accent-secondary-soft text-accent-secondary border-accent-secondary/25',
+    hoverBorder: 'hover:border-accent-secondary/60',
   },
   {
     href: '#quiz',
     title: 'تحدي المهندس',
     subtitle: '5 أسئلة ووسام فوري',
     icon: Award,
-    iconBg:
-      'bg-blue-50 dark:bg-sky-500/15 text-[#2563EB] dark:text-sky-400 border-blue-100 dark:border-sky-400/25',
-    hoverBorder: 'hover:border-[#2563EB]/50 dark:hover:border-sky-400/60',
+    iconBg: 'bg-accent-soft text-accent border-accent-border',
+    hoverBorder: 'hover:border-accent/60',
   },
 ];
 
-export function HeroSection({ theme, onToggleTheme }: HeroSectionProps) {
+export function HeroSection({
+  theme,
+  onToggleTheme,
+  accentPalette,
+  onChangeAccent,
+}: HeroSectionProps) {
   const isDark = theme === 'dark';
 
   return (
     <section
       id="top"
-      className="relative border-b border-[#E2E8F0] dark:border-slate-800 bg-engineering-grid py-12 sm:py-16 lg:py-20 transition-colors duration-200"
+      className="relative border-b border-border-theme bg-engineering-grid py-12 sm:py-16 lg:py-20 transition-colors duration-200"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-stretch">
@@ -55,72 +69,110 @@ export function HeroSection({ theme, onToggleTheme }: HeroSectionProps) {
           >
             <div className="space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <p className="text-xs sm:text-sm font-bold text-[#0D9488] dark:text-teal-400 tracking-wide">
+                <p className="text-xs sm:text-sm font-bold text-accent-secondary tracking-wide">
                   مشروع دراسي تفاعلي · قسم الهندسة الميكانيكية
                 </p>
 
-                <button
-                  type="button"
-                  onClick={onToggleTheme}
-                  aria-pressed={isDark}
-                  aria-label={isDark ? 'التبديل إلى الوضع الفاتح' : 'التبديل إلى الوضع الداكن'}
-                  data-testid="theme-toggle-btn"
-                  className="inline-flex items-center gap-2 rounded-xl border border-[#E2E8F0] dark:border-slate-700 bg-white dark:bg-slate-800/90 px-3.5 py-2 text-xs font-bold text-[#1E293B] dark:text-slate-100 shadow-xs hover:border-[#2563EB] dark:hover:border-sky-400 hover:text-[#2563EB] dark:hover:text-sky-400 transition-colors whitespace-nowrap shrink-0 min-h-[40px]"
-                >
-                  {isDark ? (
-                    <>
-                      <Sun className="h-4 w-4 text-amber-400" />
-                      <span>الوضع الفاتح</span>
-                    </>
-                  ) : (
-                    <>
-                      <Moon className="h-4 w-4 text-[#2563EB]" />
-                      <span>الوضع الداكن</span>
-                    </>
-                  )}
-                </button>
+                <div className="flex flex-wrap items-center gap-2">
+                  {/* Full-Site Comfortable Color Theme Selector beside Dark Mode */}
+                  <div
+                    role="group"
+                    aria-label="تغيير لون الموقع بالكامل"
+                    className="inline-flex items-center gap-2 rounded-xl border border-border-theme bg-surface px-3 py-1.5 shadow-xs min-h-[40px]"
+                  >
+                    <Palette className="h-3.5 w-3.5 text-accent shrink-0" aria-hidden="true" />
+                    <span className="text-[11px] font-bold text-ink-body whitespace-nowrap">
+                      لون الموقع:
+                    </span>
+                    <div className="flex items-center gap-1.5">
+                      {ACCENT_PALETTES.map((palette) => {
+                        const isSelected = accentPalette === palette.id;
+                        const swatchColor = isDark ? palette.swatchDark : palette.swatchLight;
+                        return (
+                          <button
+                            key={palette.id}
+                            type="button"
+                            onClick={() => onChangeAccent(palette.id)}
+                            aria-label={`تغيير لون الموقع إلى: ${palette.labelAr}`}
+                            aria-pressed={isSelected}
+                            title={`تغيير لون الموقع: ${palette.labelAr}`}
+                            data-testid={`accent-btn-${palette.id}`}
+                            className={`h-5 w-5 rounded-full transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+                              isSelected
+                                ? 'scale-110 ring-2 ring-offset-2 ring-ink ring-offset-surface'
+                                : 'opacity-80 hover:opacity-100 hover:scale-105'
+                            }`}
+                            style={{ backgroundColor: swatchColor }}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Dark / Light Mode Toggle */}
+                  <button
+                    type="button"
+                    onClick={onToggleTheme}
+                    aria-pressed={isDark}
+                    aria-label={isDark ? 'التبديل إلى الوضع الفاتح' : 'التبديل إلى الوضع الداكن'}
+                    data-testid="theme-toggle-btn"
+                    className="inline-flex items-center gap-2 rounded-xl border border-border-theme bg-surface px-3.5 py-2 text-xs font-bold text-ink shadow-xs hover:border-accent hover:text-accent transition-colors whitespace-nowrap shrink-0 min-h-[40px]"
+                  >
+                    {isDark ? (
+                      <>
+                        <Sun className="h-4 w-4 text-amber-400" />
+                        <span>الوضع الفاتح</span>
+                      </>
+                    ) : (
+                      <>
+                        <Moon className="h-4 w-4 text-accent" />
+                        <span>الوضع الداكن</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
 
               <h1
-                className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight text-[#1E293B] dark:text-slate-50"
+                className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight text-heading"
                 style={{ textWrap: 'balance' }}
               >
                 المختبر التفاعلي لعلوم المواد الميكانيكية
               </h1>
 
-              <p className="max-w-2xl text-base sm:text-lg leading-relaxed text-slate-600 dark:text-slate-300">
+              <p className="max-w-2xl text-base sm:text-lg leading-relaxed text-ink-body">
                 منصة تعليمية هادئة ومبسطة لاستكشاف الخواص الفيزيائية والميكانيكية للمواد الصناعية،
                 ومقارنة أدائها الهندسي ذكياً لاختيار المادة الأنسب لكل تطبيق ميكانيكي.
               </p>
             </div>
 
             {/* Students & Professor Attribution Card */}
-            <div className="rounded-2xl border border-[#E2E8F0] dark:border-slate-700/80 bg-white dark:bg-[#1E293B] p-5 shadow-sm space-y-4 transition-colors duration-200">
+            <div className="rounded-2xl border border-border-theme bg-surface p-5 shadow-sm space-y-4 transition-colors duration-200">
               <div className="flex items-start gap-3.5">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 dark:bg-sky-500/15 text-[#2563EB] dark:text-sky-400 border border-blue-100 dark:border-sky-400/25">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent border border-accent-border">
                   <GraduationCap className="h-5 w-5" />
                 </div>
                 <div className="space-y-1">
-                  <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  <div className="text-xs font-semibold text-ink-muted">
                     إعداد الطلبة — قسم الهندسة الميكانيكية
                   </div>
-                  <div className="text-sm sm:text-base font-bold text-[#1E293B] dark:text-slate-100 leading-snug">
+                  <div className="text-sm sm:text-base font-bold text-ink leading-snug">
                     معروف عبد الجكيم · عوام بلال · بوازني منيب · بلعريبي اوسامة
                   </div>
                 </div>
               </div>
 
-              <div className="border-t border-[#E2E8F0] dark:border-slate-700/70 pt-3.5 flex items-start gap-3.5">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 dark:bg-teal-500/15 text-[#0D9488] dark:text-teal-400 border border-teal-100 dark:border-teal-400/25">
+              <div className="border-t border-border-theme pt-3.5 flex items-start gap-3.5">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-secondary-soft text-accent-secondary border border-accent-secondary/25">
                   <UserCheck className="h-5 w-5" />
                 </div>
                 <div className="space-y-0.5">
-                  <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  <div className="text-xs font-semibold text-ink-muted">
                     إشراف أكاديمي
                   </div>
-                  <div className="text-sm sm:text-base font-bold text-[#1E293B] dark:text-slate-100">
+                  <div className="text-sm sm:text-base font-bold text-ink">
                     تحت إشراف أستاذ مادة الهندسة الميكانيكية:{' '}
-                    <span className="text-[#2563EB] dark:text-sky-400">شكري رضوان</span>
+                    <span className="text-accent">شكري رضوان</span>
                   </div>
                 </div>
               </div>
@@ -134,7 +186,7 @@ export function HeroSection({ theme, onToggleTheme }: HeroSectionProps) {
                   <a
                     key={item.href}
                     href={item.href}
-                    className={`group flex items-center gap-3 rounded-2xl border border-[#E2E8F0] dark:border-slate-700/80 bg-white dark:bg-[#1E293B] p-3.5 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md ${item.hoverBorder} min-h-[56px]`}
+                    className={`group flex items-center gap-3 rounded-2xl border border-border-theme bg-surface p-3.5 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md ${item.hoverBorder} min-h-[56px]`}
                   >
                     <span
                       className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${item.iconBg}`}
@@ -142,10 +194,10 @@ export function HeroSection({ theme, onToggleTheme }: HeroSectionProps) {
                       <Icon className="h-5 w-5" />
                     </span>
                     <span className="min-w-0">
-                      <span className="block text-sm font-bold text-[#1E293B] dark:text-slate-100 group-hover:text-[#2563EB] dark:group-hover:text-sky-400 whitespace-nowrap">
+                      <span className="block text-sm font-bold text-ink group-hover:text-accent whitespace-nowrap">
                         {item.title}
                       </span>
-                      <span className="block text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
+                      <span className="block text-xs text-ink-muted whitespace-nowrap">
                         {item.subtitle}
                       </span>
                     </span>
@@ -162,15 +214,15 @@ export function HeroSection({ theme, onToggleTheme }: HeroSectionProps) {
             transition={{ duration: 0.45, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 flex"
           >
-            <div className="relative flex w-full flex-col justify-between rounded-2xl border border-[#E2E8F0] dark:border-slate-700/80 bg-white dark:bg-[#1E293B] p-6 shadow-sm transition-colors duration-200">
-              <div className="flex items-center justify-between border-b border-[#E2E8F0] dark:border-slate-700/70 pb-3 text-xs text-slate-500 dark:text-slate-400">
+            <div className="relative flex w-full flex-col justify-between rounded-2xl border border-border-theme bg-surface p-6 shadow-sm transition-colors duration-200">
+              <div className="flex items-center justify-between border-b border-border-theme pb-3 text-xs text-ink-muted">
                 <span className="font-semibold">مخطط مقارنة خصائص المواد المرجعي</span>
-                <span dir="ltr" className="font-mono-nums font-semibold text-[#2563EB] dark:text-sky-400">
+                <span dir="ltr" className="font-mono-nums font-semibold text-accent">
                   σ = F / A
                 </span>
               </div>
 
-              {/* Dual-theme Blueprint SVG */}
+              {/* Dual-theme Blueprint SVG synced with active full-site theme */}
               <div className="my-5 flex-1 flex items-center justify-center">
                 <svg
                   viewBox="0 0 380 260"
@@ -179,7 +231,7 @@ export function HeroSection({ theme, onToggleTheme }: HeroSectionProps) {
                   aria-label="مخطط هندسي يوضح العلاقة بين الإجهاد والانفعال للمواد الهندسية الخمس"
                 >
                   <g
-                    className="stroke-[#E2E8F0] dark:stroke-slate-700"
+                    className="stroke-border-theme"
                     strokeWidth="1"
                     strokeDasharray="3 3"
                   >
@@ -197,7 +249,7 @@ export function HeroSection({ theme, onToggleTheme }: HeroSectionProps) {
                     y1="20"
                     x2="48"
                     y2="215"
-                    className="stroke-slate-500 dark:stroke-slate-400"
+                    className="stroke-ink-muted"
                     strokeWidth="1.5"
                   />
                   <line
@@ -205,32 +257,32 @@ export function HeroSection({ theme, onToggleTheme }: HeroSectionProps) {
                     y1="215"
                     x2="355"
                     y2="215"
-                    className="stroke-slate-500 dark:stroke-slate-400"
+                    className="stroke-ink-muted"
                     strokeWidth="1.5"
                   />
 
                   <polygon
                     points="48,215 115,96 115,215"
-                    className="fill-[#2563EB] dark:fill-sky-400"
-                    opacity="0.1"
+                    className="fill-accent"
+                    opacity="0.12"
                   />
                   <path
                     d="M 115 215 L 115 96 C 155 62, 215 44, 262 46 C 292 48, 315 74, 330 98 L 330 215 Z"
-                    className="fill-[#0D9488] dark:fill-teal-400"
-                    opacity="0.1"
+                    className="fill-accent-secondary"
+                    opacity="0.12"
                   />
 
                   <path
                     d="M 48 215 L 115 96"
                     fill="none"
-                    className="stroke-[#2563EB] dark:stroke-sky-400"
+                    className="stroke-accent"
                     strokeWidth="3"
                     strokeLinecap="round"
                   />
                   <path
                     d="M 115 96 C 155 62, 215 44, 262 46 C 292 48, 315 74, 330 98"
                     fill="none"
-                    className="stroke-[#0D9488] dark:stroke-teal-400"
+                    className="stroke-accent-secondary"
                     strokeWidth="3"
                     strokeLinecap="round"
                   />
@@ -239,28 +291,28 @@ export function HeroSection({ theme, onToggleTheme }: HeroSectionProps) {
                     cx="115"
                     cy="96"
                     r="5"
-                    className="fill-[#2563EB] dark:fill-sky-400 stroke-white dark:stroke-[#1E293B]"
+                    className="fill-accent stroke-surface"
                     strokeWidth="2"
                   />
                   <circle
                     cx="262"
                     cy="46"
                     r="5"
-                    className="fill-[#0D9488] dark:fill-teal-400 stroke-white dark:stroke-[#1E293B]"
+                    className="fill-accent-secondary stroke-surface"
                     strokeWidth="2"
                   />
                   <circle
                     cx="330"
                     cy="98"
                     r="5"
-                    className="fill-slate-500 dark:fill-slate-300 stroke-white dark:stroke-[#1E293B]"
+                    className="fill-ink-muted stroke-surface"
                     strokeWidth="2"
                   />
 
                   <text
                     x="58"
                     y="34"
-                    className="fill-slate-600 dark:fill-slate-300"
+                    className="fill-ink-body"
                     fontSize="11"
                     fontFamily="Cairo, sans-serif"
                     fontWeight="600"
@@ -270,7 +322,7 @@ export function HeroSection({ theme, onToggleTheme }: HeroSectionProps) {
                   <text
                     x="292"
                     y="238"
-                    className="fill-slate-600 dark:fill-slate-300"
+                    className="fill-ink-body"
                     fontSize="11"
                     fontFamily="Cairo, sans-serif"
                     fontWeight="600"
@@ -280,7 +332,7 @@ export function HeroSection({ theme, onToggleTheme }: HeroSectionProps) {
                   <text
                     x="104"
                     y="96"
-                    className="fill-[#2563EB] dark:fill-sky-400"
+                    className="fill-accent"
                     fontSize="10.5"
                     fontFamily="Cairo, sans-serif"
                     fontWeight="700"
@@ -290,7 +342,7 @@ export function HeroSection({ theme, onToggleTheme }: HeroSectionProps) {
                   <text
                     x="230"
                     y="34"
-                    className="fill-[#0D9488] dark:fill-teal-400"
+                    className="fill-accent-secondary"
                     fontSize="10.5"
                     fontFamily="Cairo, sans-serif"
                     fontWeight="700"
@@ -300,7 +352,7 @@ export function HeroSection({ theme, onToggleTheme }: HeroSectionProps) {
                   <text
                     x="316"
                     y="120"
-                    className="fill-slate-600 dark:fill-slate-300"
+                    className="fill-ink-body"
                     fontSize="10.5"
                     fontFamily="Cairo, sans-serif"
                     fontWeight="700"
@@ -310,28 +362,24 @@ export function HeroSection({ theme, onToggleTheme }: HeroSectionProps) {
                 </svg>
               </div>
 
-              <div className="grid grid-cols-3 gap-2.5 border-t border-[#E2E8F0] dark:border-slate-700/70 pt-4 text-center">
-                <div className="rounded-xl bg-[#F8FAFC] dark:bg-slate-900/70 border border-[#E2E8F0] dark:border-slate-800 p-2.5">
-                  <div className="font-mono-nums text-lg font-bold text-[#2563EB] dark:text-sky-400">
-                    5
-                  </div>
-                  <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+              <div className="grid grid-cols-3 gap-2.5 border-t border-border-theme pt-4 text-center">
+                <div className="rounded-xl bg-surface-alt border border-border-theme p-2.5">
+                  <div className="font-mono-nums text-lg font-bold text-accent">5</div>
+                  <div className="text-[11px] font-medium text-ink-muted">
                     مواد قياسية
                   </div>
                 </div>
-                <div className="rounded-xl bg-[#F8FAFC] dark:bg-slate-900/70 border border-[#E2E8F0] dark:border-slate-800 p-2.5">
-                  <div className="font-mono-nums text-lg font-bold text-[#0D9488] dark:text-teal-400">
-                    3
-                  </div>
-                  <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                <div className="rounded-xl bg-surface-alt border border-border-theme p-2.5">
+                  <div className="font-mono-nums text-lg font-bold text-accent-secondary">3</div>
+                  <div className="text-[11px] font-medium text-ink-muted">
                     تحديات جاهزة
                   </div>
                 </div>
-                <div className="rounded-xl bg-[#F8FAFC] dark:bg-slate-900/70 border border-[#E2E8F0] dark:border-slate-800 p-2.5">
-                  <div className="font-mono-nums text-lg font-bold text-[#1E293B] dark:text-slate-100">
+                <div className="rounded-xl bg-surface-alt border border-border-theme p-2.5">
+                  <div className="font-mono-nums text-lg font-bold text-ink">
                     5
                   </div>
-                  <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                  <div className="text-[11px] font-medium text-ink-muted">
                     أسئلة تقييم
                   </div>
                 </div>

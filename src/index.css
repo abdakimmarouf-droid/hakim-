@@ -1,25 +1,214 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --color-canvas: var(--bg-canvas);
+  --color-surface: var(--bg-surface);
+  --color-surface-alt: var(--bg-surface-alt);
+  --color-surface-header: var(--bg-header);
+  --color-border-theme: var(--border-calm);
+  --color-ink: var(--text-primary);
+  --color-ink-body: var(--text-body);
+  --color-ink-muted: var(--text-muted);
+  --color-heading: var(--heading-color);
+
+  --color-accent: var(--accent-primary);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-border: var(--accent-border);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-accent-secondary-soft: var(--accent-secondary-soft);
+}
+
 @layer base {
-  :root {
-    --bg-canvas: #F8FAFC;
+  /* 1. Blue Engineering Full-Site Theme (Default) */
+  :root,
+  html[data-accent="blue"] {
+    --bg-canvas: #EEF4FC;
     --bg-surface: #FFFFFF;
-    --border-calm: #E2E8F0;
+    --bg-surface-alt: #F4F8FE;
+    --bg-header: rgba(238, 244, 252, 0.90);
+    --border-calm: #CBD8EC;
+    --text-primary: #17253B;
+    --text-body: #3B4D6B;
+    --text-muted: #5E718F;
+    --heading-color: #1D4ED8;
+
     --accent-primary: #2563EB;
+    --accent-hover: #1D4ED8;
+    --accent-fg: #FFFFFF;
+    --accent-soft: #E5EFFD;
+    --accent-border: #B8D0FA;
     --accent-secondary: #0D9488;
-    --text-primary: #1E293B;
+    --accent-secondary-soft: #E6F7F5;
+    --grid-primary: rgba(37, 99, 235, 0.055);
+    --grid-secondary: rgba(13, 148, 136, 0.03);
+  }
+
+  html.dark,
+  html.dark[data-accent="blue"] {
+    --bg-canvas: #0B1528;
+    --bg-surface: #14223B;
+    --bg-surface-alt: #0E1A30;
+    --bg-header: rgba(11, 21, 40, 0.90);
+    --border-calm: #24385B;
+    --text-primary: #F1F5F9;
+    --text-body: #C7D6EB;
+    --text-muted: #8EA4C4;
+    --heading-color: #60A5FA;
+
+    --accent-primary: #38BDF8;
+    --accent-hover: #0EA5E9;
+    --accent-fg: #091222;
+    --accent-soft: rgba(56, 189, 248, 0.15);
+    --accent-border: rgba(56, 189, 248, 0.36);
+    --accent-secondary: #2DD4BF;
+    --accent-secondary-soft: rgba(45, 212, 191, 0.14);
+    --grid-primary: rgba(56, 189, 248, 0.06);
+    --grid-secondary: rgba(45, 212, 191, 0.035);
+  }
+
+  /* 2. Comfortable Warm Red Full-Site Theme */
+  html[data-accent="red"] {
+    --bg-canvas: #FDF2F3;
+    --bg-surface: #FFFBFB;
+    --bg-surface-alt: #FAE8EA;
+    --bg-header: rgba(253, 242, 243, 0.90);
+    --border-calm: #F1D0D4;
+    --text-primary: #2D161A;
+    --text-body: #5B383E;
+    --text-muted: #855A61;
+    --heading-color: #A61B2E;
+
+    --accent-primary: #C93B4B;
+    --accent-hover: #B02E3D;
+    --accent-fg: #FFFFFF;
+    --accent-soft: #FDE5E8;
+    --accent-border: #F8BEC5;
+    --accent-secondary: #B45309;
+    --accent-secondary-soft: #FEF3C7;
+    --grid-primary: rgba(201, 59, 75, 0.055);
+    --grid-secondary: rgba(180, 83, 9, 0.03);
+  }
+
+  html.dark[data-accent="red"] {
+    --bg-canvas: #1C0E13;
+    --bg-surface: #29151C;
+    --bg-surface-alt: #201016;
+    --bg-header: rgba(28, 14, 19, 0.90);
+    --border-calm: #4A2531;
+    --text-primary: #FDF2F4;
+    --text-body: #E6C7CE;
+    --text-muted: #B88B95;
+    --heading-color: #FDA4AF;
+
+    --accent-primary: #FB7185;
+    --accent-hover: #F43F5E;
+    --accent-fg: #1C0E13;
+    --accent-soft: rgba(251, 113, 133, 0.16);
+    --accent-border: rgba(251, 113, 133, 0.40);
+    --accent-secondary: #F59E0B;
+    --accent-secondary-soft: rgba(245, 158, 11, 0.15);
+    --grid-primary: rgba(251, 113, 133, 0.06);
+    --grid-secondary: rgba(245, 158, 11, 0.035);
+  }
+
+  /* 3. Comfortable Mint Green Full-Site Theme */
+  html[data-accent="green"] {
+    --bg-canvas: #EDF7F4;
+    --bg-surface: #FAFEFC;
+    --bg-surface-alt: #E2F2ED;
+    --bg-header: rgba(237, 247, 244, 0.90);
+    --border-calm: #C2E0D8;
+    --text-primary: #122A25;
+    --text-body: #33534C;
+    --text-muted: #567A72;
+    --heading-color: #0F6E63;
+
+    --accent-primary: #0D9488;
+    --accent-hover: #0F766E;
+    --accent-fg: #FFFFFF;
+    --accent-soft: #DCF5EE;
+    --accent-border: #99E2D4;
+    --accent-secondary: #2563EB;
+    --accent-secondary-soft: #E5EFFD;
+    --grid-primary: rgba(13, 148, 136, 0.055);
+    --grid-secondary: rgba(37, 99, 235, 0.03);
+  }
+
+  html.dark[data-accent="green"] {
+    --bg-canvas: #0A1A17;
+    --bg-surface: #122924;
+    --bg-surface-alt: #0D201C;
+    --bg-header: rgba(10, 26, 23, 0.90);
+    --border-calm: #20433C;
+    --text-primary: #ECFDF7;
+    --text-body: #BEE3DA;
+    --text-muted: #7FB2A6;
+    --heading-color: #5EEAD4;
+
+    --accent-primary: #2DD4BF;
+    --accent-hover: #14B8A6;
+    --accent-fg: #0A1A17;
+    --accent-soft: rgba(45, 212, 191, 0.16);
+    --accent-border: rgba(45, 212, 191, 0.38);
+    --accent-secondary: #38BDF8;
+    --accent-secondary-soft: rgba(56, 189, 248, 0.15);
+    --grid-primary: rgba(45, 212, 191, 0.06);
+    --grid-secondary: rgba(56, 189, 248, 0.035);
+  }
+
+  /* 4. Comfortable Calm Purple Full-Site Theme */
+  html[data-accent="purple"] {
+    --bg-canvas: #F3F1FC;
+    --bg-surface: #FCFBFF;
+    --bg-surface-alt: #EAE6FA;
+    --bg-header: rgba(243, 241, 252, 0.90);
+    --border-calm: #D4CEEE;
+    --text-primary: #1E1B3A;
+    --text-body: #47426E;
+    --text-muted: #6D6796;
+    --heading-color: #4338CA;
+
+    --accent-primary: #6366F1;
+    --accent-hover: #4F46E5;
+    --accent-fg: #FFFFFF;
+    --accent-soft: #E8E6FD;
+    --accent-border: #C4BFF9;
+    --accent-secondary: #0D9488;
+    --accent-secondary-soft: #DCF5EE;
+    --grid-primary: rgba(99, 102, 241, 0.055);
+    --grid-secondary: rgba(13, 148, 136, 0.03);
+  }
+
+  html.dark[data-accent="purple"] {
+    --bg-canvas: #131126;
+    --bg-surface: #1E1B38;
+    --bg-surface-alt: #17142C;
+    --bg-header: rgba(19, 17, 38, 0.90);
+    --border-calm: #35305C;
+    --text-primary: #F3F2FF;
+    --text-body: #CBC7EB;
+    --text-muted: #938EC2;
+    --heading-color: #C4B5FD;
+
+    --accent-primary: #A78BFA;
+    --accent-hover: #8B5CF6;
+    --accent-fg: #131126;
+    --accent-soft: rgba(167, 139, 250, 0.16);
+    --accent-border: rgba(167, 139, 250, 0.40);
+    --accent-secondary: #2DD4BF;
+    --accent-secondary-soft: rgba(45, 212, 191, 0.15);
+    --grid-primary: rgba(167, 139, 250, 0.06);
+    --grid-secondary: rgba(45, 212, 191, 0.035);
   }
 
   html {
     font-family: 'Cairo', system-ui, -apple-system, sans-serif;
-    background-color: #F8FAFC;
-    color: #1E293B;
-  }
-
-  html.dark {
-    background-color: #0F172A;
-    color: #F1F5F9;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    transition: background-color 0.22s ease, color 0.22s ease;
   }
 
   body {
@@ -36,24 +225,14 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Subtle Light Engineering Blueprint Grid */
+/* Subtle Engineering Blueprint Grid synced with full-site theme & mode */
 .bg-engineering-grid {
-  background-color: #F8FAFC;
+  background-color: var(--bg-canvas);
   background-image:
-    linear-gradient(to right, rgba(37, 99, 235, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(37, 99, 235, 0.045) 1px, transparent 1px),
-    linear-gradient(to right, rgba(13, 148, 136, 0.025) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(13, 148, 136, 0.025) 1px, transparent 1px);
-  background-size: 40px 40px, 40px 40px, 160px 160px, 160px 160px;
-}
-
-.dark .bg-engineering-grid {
-  background-color: #0F172A;
-  background-image:
-    linear-gradient(to right, rgba(56, 189, 248, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(56, 189, 248, 0.05) 1px, transparent 1px),
-    linear-gradient(to right, rgba(45, 212, 191, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(45, 212, 191, 0.03) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-primary) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-primary) 1px, transparent 1px),
+    linear-gradient(to right, var(--grid-secondary) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-secondary) 1px, transparent 1px);
   background-size: 40px 40px, 40px 40px, 160px 160px, 160px 160px;
 }
 
