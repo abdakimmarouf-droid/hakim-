@@ -3,6 +3,7 @@ import { Download } from 'lucide-react';
 import { MotionConfig } from 'motion/react';
 import { ComparatorSection } from './components/ComparatorSection';
 import { EncyclopediaSection } from './components/EncyclopediaSection';
+import { GlossarySection } from './components/GlossarySection';
 import { HeroSection } from './components/HeroSection';
 import { Navbar } from './components/Navbar';
 import { QuizSection } from './components/QuizSection';
@@ -62,6 +63,7 @@ export default function App() {
           <EncyclopediaSection />
           <ComparatorSection />
           <QuizSection />
+          <GlossarySection />
         </main>
 
         <footer className="border-t border-[#E2E8F0] dark:border-slate-800 bg-white dark:bg-[#0B1220] py-8 transition-colors duration-200">

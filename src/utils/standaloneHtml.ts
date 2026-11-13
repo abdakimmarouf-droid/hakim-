@@ -1,9 +1,10 @@
-import { MATERIALS, PRESET_CHALLENGES, QUIZ_QUESTIONS } from '../data/materialsData';
+import { GLOSSARY_TERMS, MATERIALS, PRESET_CHALLENGES, QUIZ_QUESTIONS } from '../data/materialsData';
 
 export function buildStandaloneHtml(): string {
   const serializedMaterials = JSON.stringify(MATERIALS);
   const serializedPresets = JSON.stringify(PRESET_CHALLENGES);
   const serializedQuiz = JSON.stringify(QUIZ_QUESTIONS);
+  const serializedGlossary = JSON.stringify(GLOSSARY_TERMS);
 
   return `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -103,6 +104,7 @@ export function buildStandaloneHtml(): string {
         <a href="#encyclopedia">الموسوعة</a>
         <a href="#comparator">المقارنة الذكية</a>
         <a href="#quiz">تحدي المهندس</a>
+        <a href="#glossary">قاموس المصطلحات</a>
       </nav>
       <a href="#comparator" class="btn-primary">المقارنة الذكية</a>
     </div>
@@ -162,11 +164,19 @@ export function buildStandaloneHtml(): string {
       </div>
     </section>
 
-    <section id="quiz" style="border-bottom:none;">
+    <section id="quiz">
       <div class="container" style="max-width:760px;">
         <h2 style="text-align:center;">03. تحدي المهندس الصغير</h2>
         <p class="subtitle" style="text-align:center; margin-left:auto; margin-right:auto;">5 أسئلة تفاعلية مع تصحيح فوري ووسام تقييم في نهاية الاختبار.</p>
         <div id="quiz-box" class="card"></div>
+      </div>
+    </section>
+
+    <section id="glossary" class="blueprint-bg" style="border-bottom:none;">
+      <div class="container">
+        <h2>04. قاموس المصطلحات الهندسية</h2>
+        <p class="subtitle">مرجع مبسط لأهم مصطلحات الميكانيكا وعلوم المواد مع الصيغ الفيزيائية والأمثلة التطبيقية لتسهيل الفهم للطلاب.</p>
+        <div id="glossary-grid" class="grid-3"></div>
       </div>
     </section>
   </main>
@@ -191,6 +201,7 @@ export function buildStandaloneHtml(): string {
     const MATERIALS = ${serializedMaterials};
     const PRESETS = ${serializedPresets};
     const QUIZ = ${serializedQuiz};
+    const GLOSSARY = ${serializedGlossary};
     const MAT_MAP = Object.fromEntries(MATERIALS.map(m => [m.id, m]));
 
     // Theme toggle
@@ -308,6 +319,19 @@ export function buildStandaloneHtml(): string {
       });
     }
     renderQuiz();
+
+    // Glossary
+    const glossaryGrid = document.getElementById('glossary-grid');
+    GLOSSARY.forEach(t => {
+      const card = document.createElement('article');
+      card.className = 'card';
+      const meta = [t.formula, t.unit].filter(Boolean).join(' · ');
+      card.innerHTML = '<div style="display:flex; justify-content:space-between; font-size:0.78rem; color:var(--secondary); margin-bottom:6px;"><span>' + t.categoryLabel + '</span><span class="mono" style="color:var(--muted);">' + t.termEn + '</span></div>'
+        + '<div style="display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:8px;"><h3 style="font-size:1.1rem; font-weight:800;">' + t.termAr + '</h3>' + (meta ? '<span class="mono" style="font-size:0.78rem; color:var(--primary); font-weight:700;">' + meta + '</span>' : '') + '</div>'
+        + '<p style="font-size:0.88rem; color:var(--body-text); margin-bottom:12px;">' + t.definition + '</p>'
+        + '<div style="border-top:1px solid var(--border); padding-top:8px; font-size:0.8rem; color:var(--muted);"><strong style="color:var(--text);">مثال تطبيقي: </strong>' + t.engineeringExample + '</div>';
+      glossaryGrid.appendChild(card);
+    });
   </script>
 </body>
 </html>`;

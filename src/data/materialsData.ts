@@ -60,6 +60,20 @@ export interface QuizQuestion {
   explanation: string;
 }
 
+export type GlossaryCategoryId = 'mechanical' | 'tensile' | 'physical';
+
+export interface GlossaryTerm {
+  id: string;
+  termAr: string;
+  termEn: string;
+  formula?: string;
+  unit?: string;
+  categoryId: GlossaryCategoryId;
+  categoryLabel: string;
+  definition: string;
+  engineeringExample: string;
+}
+
 export const MATERIALS: MaterialItem[] = [
   {
     id: 'steel',
@@ -347,5 +361,153 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     correctIndex: 0,
     explanation:
       'البلاستيك الهندسي ABS يجمع بين خفة الوزن، مقاومة الصدأ التامة، العزل الكهربائي، وسهولة التشكيل بالحقن بتكلفة اقتصادية.',
+  },
+];
+
+export const GLOSSARY_TERMS: GlossaryTerm[] = [
+  {
+    id: 'hardness',
+    termAr: 'الصلادة',
+    termEn: 'Hardness',
+    unit: 'HV / HRC',
+    categoryId: 'mechanical',
+    categoryLabel: 'الخواص الميكانيكية',
+    definition:
+      'مقاومة سطح المادة للخدش أو التآكل أو الاختراق الميكانيكي عند ضغط جسم صلب عليه دون أن يتشوه موضعياً.',
+    engineeringExample:
+      'يتمتع الحديد الصلب وألياف الكربون بصلادة مرتفعة تجعلهما مثاليين للتروس وأدوات القطع.',
+  },
+  {
+    id: 'elasticity',
+    termAr: 'المرونة',
+    termEn: 'Elasticity',
+    categoryId: 'mechanical',
+    categoryLabel: 'الخواص الميكانيكية',
+    definition:
+      'قدرة المادة على التمدد أو الانضغاط عند تطبيق قوة عليها، ثم العودة تماماً إلى أبعادها وشكلها الأصلي بمجرد إزالة الحمل.',
+    engineeringExample:
+      'تُصمَّم نوابض التعليق في السيارات لتعمل ضمن منطقة المرونة طوال عمرها التشغيلي.',
+  },
+  {
+    id: 'stress',
+    termAr: 'الإجهاد',
+    termEn: 'Stress',
+    formula: 'σ = F / A',
+    unit: 'MPa',
+    categoryId: 'tensile',
+    categoryLabel: 'سلوك الشد والإجهاد',
+    definition:
+      'مقدار القوة الداخلية المؤثرة عمودياً أو موازياً على وحدة المساحة من المقطع العرضي للمادة عند تعرضها لحمل خارجي.',
+    engineeringExample:
+      'تتحمل قضبان الصلب إجهاد شد يصل إلى 620 MPa قبل الوصول إلى مرحلة الانهيار.',
+  },
+  {
+    id: 'strain',
+    termAr: 'الانفعال',
+    termEn: 'Strain',
+    formula: 'ε = ΔL / L₀',
+    unit: '%',
+    categoryId: 'tensile',
+    categoryLabel: 'سلوك الشد والإجهاد',
+    definition:
+      'نسبة التغير في طول العينة (الاستطالة أو الانكماش) مقارنة بطولها الأصلي نتيجة تعرضها لإجهاد ميكانيكي.',
+    engineeringExample:
+      'يستطيل النحاس بنسبة تتجاوز 30% قبل الانكسار بينما لا يتجاوز انفعال ألياف الكربون 4%.',
+  },
+  {
+    id: 'youngs-modulus',
+    termAr: 'معامل يونغ (معامل المرونة)',
+    termEn: "Young's Modulus",
+    formula: 'E = σ / ε',
+    unit: 'GPa',
+    categoryId: 'tensile',
+    categoryLabel: 'سلوك الشد والإجهاد',
+    definition:
+      'مقياس لمدى جساءة المادة ومقاومتها للتشوه المرن، ويُمثَّل بميل الخط المستقيم في بداية منحنى الإجهاد والانفعال.',
+    engineeringExample:
+      'معامل يونغ للصلب (200 GPa) يقارب ثلاثة أضعاف الألومنيوم (69 GPa)، لذا يتطلب قوة أكبر لثنيه.',
+  },
+  {
+    id: 'yield-point',
+    termAr: 'حد الخضوع',
+    termEn: 'Yield Point',
+    formula: 'σy',
+    unit: 'MPa',
+    categoryId: 'tensile',
+    categoryLabel: 'سلوك الشد والإجهاد',
+    definition:
+      'قيمة الإجهاد الحرجة التي تنتقل عندها المادة من التشوه المرن المؤقت إلى التشوه اللدن الدائم الذي لا يزول بإزالة القوة.',
+    engineeringExample:
+      'يُعد حد الخضوع المرجع الأساسي للمهندسين عند تصميم الجسور والأعمدة لتفادي الانحناء الدائم.',
+  },
+  {
+    id: 'ultimate-tensile-strength',
+    termAr: 'مقاومة الشد القصوى',
+    termEn: 'Ultimate Tensile Strength',
+    formula: 'UTS',
+    unit: 'MPa',
+    categoryId: 'tensile',
+    categoryLabel: 'سلوك الشد والإجهاد',
+    definition:
+      'أعلى قيمة إجهاد شد تستطيع المادة تحملها أثناء الاختبار قبل أن تبدأ بالانهيار والتخصّر السريع نحو الانكسار.',
+    engineeringExample:
+      'تصل مقاومة الشد القصوى لمركبات ألياف الكربون إلى 1150 MPa رغم خفة وزنها الفائقة.',
+  },
+  {
+    id: 'ductility',
+    termAr: 'المطيلية',
+    termEn: 'Ductility',
+    categoryId: 'mechanical',
+    categoryLabel: 'الخواص الميكانيكية',
+    definition:
+      'قابلية المادة للاستطالة والتشكيل اللدن تحت تأثير قوى الشد — مثل سحبها إلى أسلاك طويلة — قبل أن تنكسر.',
+    engineeringExample:
+      'يُعد النحاس والألومنيوم من أكثر المعادن مطيلية، مما يسهل سحبهما إلى كابلات كهربائية دقيقة.',
+  },
+  {
+    id: 'necking',
+    termAr: 'التخصّر',
+    termEn: 'Necking',
+    categoryId: 'tensile',
+    categoryLabel: 'سلوك الشد والإجهاد',
+    definition:
+      'تناقص موضعي مفاجئ في قطر أو مساحة مقطع العينة المعدنية عند نقطة معينة بعد تجاوز أقصى قوة شد وقبيل الانكسار.',
+    engineeringExample:
+      'يظهر التخصّر بوضوح في منتصف عينات الصلب والنحاس كإنذار بصري واضح قبل انفصال العينة.',
+  },
+  {
+    id: 'brittleness',
+    termAr: 'الهشاشة',
+    termEn: 'Brittleness',
+    categoryId: 'mechanical',
+    categoryLabel: 'الخواص الميكانيكية',
+    definition:
+      'ميل المادة للانكسار المفاجئ عند تجاوز حد تحملها دون أن تُظهر استطالة أو تشوهاً لدناً واضحاً قبل الكسر.',
+    engineeringExample:
+      'تتحمل ألياف الكربون أحمالاً هائلة لكنها تنكسر فجأة دون تخصّر ملحوظ عند بلوغ حدها الأقصى.',
+  },
+  {
+    id: 'density',
+    termAr: 'الكثافة',
+    termEn: 'Density',
+    formula: 'ρ = m / V',
+    unit: 'g/cm³',
+    categoryId: 'physical',
+    categoryLabel: 'الخواص الفيزيائية',
+    definition:
+      'كتلة المادة الموجودة في وحدة الحجوم؛ تحدد ثقل القطعة المصنوعة مقارنة بحجمها الهندسي.',
+    engineeringExample:
+      'كثافة الألومنيوم (2.7 g/cm³) أقل بكثير من الحديد الصلب (7.85 g/cm³)، مما يوفر وقود الطائرات.',
+  },
+  {
+    id: 'conductivity',
+    termAr: 'التوصيل الحراري والكهربائي',
+    termEn: 'Conductivity',
+    categoryId: 'physical',
+    categoryLabel: 'الخواص الفيزيائية',
+    definition:
+      'قدرة المادة على نقل الشحنات الكهربائية أو الطاقة الحرارية عبر بنيتها الداخلية بأقل فقدان ممكن.',
+    engineeringExample:
+      'يتصدر النحاس نقل الكهرباء والحرارة، بينما يُستخدم البلاستيك ABS كعازل لحماية المستخدمين.',
   },
 ];

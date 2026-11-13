@@ -1,10 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { QUIZ_QUESTIONS } from '../data/materialsData';
+import { GLOSSARY_TERMS, QUIZ_QUESTIONS } from '../data/materialsData';
 import {
   calculateTensileState,
   compareMaterials,
   evaluateQuiz,
+  filterGlossaryTerms,
 } from './materialsLogic';
 import { buildStandaloneHtml } from './standaloneHtml';
 
@@ -80,6 +81,25 @@ test('evaluateQuiz scores answers and assigns appropriate medal tiers', () => {
   assert.equal(bronzeResult.medalTier, 'bronze');
 });
 
+test('filterGlossaryTerms filters accurately by Arabic query, English query, and category', () => {
+  const all = filterGlossaryTerms(GLOSSARY_TERMS, '', 'all');
+  assert.equal(all.length, 12);
+
+  const hardnessAr = filterGlossaryTerms(GLOSSARY_TERMS, 'الصلادة', 'all');
+  assert.ok(hardnessAr.some((t) => t.id === 'hardness'));
+
+  const hardnessEn = filterGlossaryTerms(GLOSSARY_TERMS, 'hardness', 'mechanical');
+  assert.equal(hardnessEn.length, 1);
+  assert.equal(hardnessEn[0].id, 'hardness');
+
+  const tensileOnly = filterGlossaryTerms(GLOSSARY_TERMS, '', 'tensile');
+  assert.ok(tensileOnly.length >= 5);
+  assert.ok(tensileOnly.every((t) => t.categoryId === 'tensile'));
+
+  const none = filterGlossaryTerms(GLOSSARY_TERMS, 'غير_موجود_xyz', 'all');
+  assert.equal(none.length, 0);
+});
+
 test('buildStandaloneHtml generates complete self-contained RTL Arabic HTML document', () => {
   const html = buildStandaloneHtml();
   assert.ok(html.startsWith('<!DOCTYPE html>'));
@@ -90,6 +110,8 @@ test('buildStandaloneHtml generates complete self-contained RTL Arabic HTML docu
   assert.ok(html.includes('الوضع الداكن'));
   assert.ok(html.includes('ألياف الكربون'));
   assert.ok(html.includes('تحدي هيكل طائرة'));
+  assert.ok(html.includes('قاموس المصطلحات الهندسية'));
+  assert.ok(html.includes('الصلادة'));
   assert.ok(!html.includes('محاكي اختبار الشد'));
   assert.ok(html.includes('</html>'));
 });

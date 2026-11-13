@@ -44,7 +44,7 @@ export function QuizSection() {
   return (
     <section
       id="quiz"
-      className="bg-[#F8FAFC] dark:bg-[#0F172A] py-14 sm:py-18 transition-colors duration-200"
+      className="border-b border-[#E2E8F0] dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0F172A] py-14 sm:py-18 transition-colors duration-200"
     >
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         <motion.div

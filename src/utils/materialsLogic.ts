@@ -1,4 +1,6 @@
 import {
+  GlossaryCategoryId,
+  GlossaryTerm,
   MATERIAL_MAP,
   MaterialId,
   PRESET_CHALLENGES,
@@ -288,4 +290,34 @@ export function evaluateQuiz(
     medalSubtitle: 'بداية مشجعة! استكشف بطاقات الموسوعة وأعد المحاولة لاكتساب الوسام الذهبي.',
     medalTier: 'bronze',
   };
+}
+
+export function filterGlossaryTerms(
+  terms: GlossaryTerm[],
+  query: string,
+  category: GlossaryCategoryId | 'all'
+): GlossaryTerm[] {
+  const normalizedQuery = query.trim().toLowerCase();
+
+  return terms.filter((term) => {
+    if (category !== 'all' && term.categoryId !== category) {
+      return false;
+    }
+    if (!normalizedQuery) {
+      return true;
+    }
+    const searchable = [
+      term.termAr,
+      term.termEn,
+      term.definition,
+      term.engineeringExample,
+      term.formula ?? '',
+      term.unit ?? '',
+      term.categoryLabel,
+    ]
+      .join(' ')
+      .toLowerCase();
+
+    return searchable.includes(normalizedQuery);
+  });
 }

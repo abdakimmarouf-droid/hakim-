@@ -5,6 +5,7 @@ const NAV_LINKS = [
   { href: '#encyclopedia', label: 'الموسوعة' },
   { href: '#comparator', label: 'المقارنة الذكية' },
   { href: '#quiz', label: 'تحدي المهندس' },
+  { href: '#glossary', label: 'قاموس المصطلحات' },
 ];
 
 export function Navbar() {
@@ -22,7 +23,7 @@ export function Navbar() {
         </a>
 
         {/* Zone 2: Clean single-line navigation links */}
-        <nav aria-label="التنقل الرئيسي" className="hidden md:flex items-center gap-8">
+        <nav aria-label="التنقل الرئيسي" className="hidden md:flex items-center gap-6 lg:gap-8">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
